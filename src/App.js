@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import Header from './component/Header';
 import Tasks from './component/Tasks';
+import AddTask from './component/AddTask';
 import { useState } from "react";
 
 function App() {
@@ -21,6 +22,16 @@ function App() {
     }, 
 ])
 
+//Add task
+
+const addTask = (task) => {
+  const id = Math.floor(Math.random()*100000) + 1
+  const newTask = {id, ...task}
+  setTasks([...tasks, newTask])
+}
+
+
+
 // Delete task
 
 const deleteTask = (id) => {
@@ -28,12 +39,15 @@ const deleteTask = (id) => {
 }
 
 // Toggle Reminder 
-// come back tommorrow
+const toggleReminder = (id) => {
+  setTasks(tasks.map((task)=> task.id === id ? {...task, reminder: !task.reminder} : task))
+}
 
   return (
     <div className="container">
       <Header/>
-      <Tasks tasks = {tasks} onDelete={deleteTask}/>
+      <AddTask onAdd ={addTask}/>
+      <Tasks tasks = {tasks} onDelete={deleteTask} onToggle = {toggleReminder}/>
     </div>
   );
 }
